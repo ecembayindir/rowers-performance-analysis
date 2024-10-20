@@ -84,18 +84,23 @@ def show_overview_page():
         The overview presents the highest-level insights into the competition's best performance, helping identify efficient rowing techniques.
     """)
 
-    # Plot the Average Speed vs. Average Stroke Length with color-coded stroke rates
-    fig = px.scatter(df, x='avg_speed_2000', y='avg_stroke_length_2000m',
-                     color='avg_spm_2000m',
-                     labels={'x': 'Average Speed (km/h)', 'y': 'Average Stroke Length (meters)', 'color': 'Stroke Rate (SPM)'},
-                     title='Average Speed vs. Average Stroke Length for 500m Sections',
+    # Plot the Average Stroke Rate vs. Average Stroke Length with color-coded speeds
+    fig = px.scatter(df, x='avg_spm_500m', y='avg_stroke_length_500m',
+                     color='avg_speed_500m',
+                     labels={'x': 'Average Stroke Rate (SPM)', 'y': 'Average Stroke Length (meters)', 'color': 'Average Speed (km/h)'},
+                     title='Average Stroke Rate vs. Average Stroke Length for 500m Sections',
                      template='plotly_white')
     fig.update_traces(marker=dict(size=10, opacity=0.7, line=dict(width=1, color='DarkSlateGrey')))
-    fig.add_trace(go.Scatter(x=[19.54], y=[9.62], mode='markers+text',
+    max_speed_index = df['avg_speed_500m'].idxmax()
+    max_speed = df['avg_speed_500m'].iloc[max_speed_index]
+    max_stroke_rate = df['avg_spm_500m'].iloc[max_speed_index]
+    max_stroke_length = df['avg_stroke_length_500m'].iloc[max_speed_index]
+    fig.add_trace(go.Scatter(x=[max_stroke_rate], y=[max_stroke_length], mode='markers+text',
                              marker=dict(color='red', size=15),
                              text=['Max Speed Point'],
                              textposition='top center'))
     st.plotly_chart(fig, use_container_width=True)
+
 
 # Function to plot 2000m completion time
 def plot_2000m_completion_time():
