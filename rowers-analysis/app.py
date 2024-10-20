@@ -171,10 +171,6 @@ def show_overview_page():
     # Step 4: Display the plot
     st.plotly_chart(fig, use_container_width=True)
 
-    # Display information about the maximum speed point
-    st.write(f"The maximum speed of **{max_speed:.2f} km/h** is achieved at a cadence of **{max_cadence:.2f} strokes/minute**.")
-    st.write(f"At this point, the average stroke length is **{max_stroke_length:.2f} meters**.")
-
 # Function to plot 2000m completion time
 def plot_2000m_completion_time():
     fig = px.bar(df, x='participant', y='total_time_2000m',
