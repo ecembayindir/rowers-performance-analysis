@@ -13,7 +13,7 @@ tab_labels = [
     "General Insights",
     "2000m Completion Time",
     "Average Speed (2000m)",
-    "500m Split Speed",
+    "Average 500m Split Speed",
     "2000m Stroke Length",
     "500m Stroke Length",
     "Heatmap"
@@ -289,7 +289,7 @@ elif tab_selection == "2000m Completion Time":
 elif tab_selection == "Average Speed (2000m)":
     plot_avg_speed_2000m()
 
-elif tab_selection == "500m Split Speed":
+elif tab_selection == "Average 500m Split Speed":
     plot_split_by_split_speed()
 
 elif tab_selection == "2000m Stroke Length":
