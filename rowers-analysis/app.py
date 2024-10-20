@@ -139,7 +139,9 @@ def show_overview_page():
             mode='markers',
             marker=dict(color='red', size=15, symbol='star'),
             name='Max Speed Point',
-            hovertemplate='Cadence: %{x:.2f} strokes/minute<br>Stroke Length: %{y:.2f} meters<br>Speed: {:.2f} km/h'.format(max_speed)
+            hovertemplate=f'Cadence: {max_cadence:.2f} strokes/minute<br>'
+                          f'Stroke Length: {max_stroke_length:.2f} meters<br>'
+                          f'Speed: {max_speed:.2f} km/h'
         )
     )
 
