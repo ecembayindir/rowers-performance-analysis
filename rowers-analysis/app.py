@@ -131,14 +131,15 @@ def show_overview_page():
         color_continuous_scale='Viridis'
     )
 
-    # Highlight the point of maximum speed with a star
+    # Highlight the point of maximum speed with a star and correct tooltip
     fig.add_trace(
         go.Scatter(
             x=[max_cadence],
             y=[max_stroke_length],
             mode='markers',
             marker=dict(color='red', size=15, symbol='star'),
-            name='Max Speed Point'
+            name='Max Speed Point',
+            hovertemplate='Cadence: %{x:.2f} strokes/minute<br>Stroke Length: %{y:.2f} meters<br>Speed: {:.2f} km/h'.format(max_speed)
         )
     )
 
@@ -159,12 +160,6 @@ def show_overview_page():
             opacity=0.7,
             line=dict(width=1, color='DarkSlateGrey')
         ),
-        selector=dict(mode='markers')
-    )
-
-    # Add hover text for better interactivity
-    fig.update_traces(
-        hovertemplate='Cadence: %{x:.2f} strokes/minute<br>Stroke Length: %{y:.2f} meters<br>Speed: %{marker.color:.2f} km/h',
         selector=dict(mode='markers')
     )
 
