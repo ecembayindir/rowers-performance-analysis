@@ -77,46 +77,74 @@ def show_overview_page():
     st.header("General Insights")
     st.markdown("""
         - The maximum speed achieved was **19.54 km/h**.
-        - The stroke rate at maximum speed was **34.00 strokes/minute**.
+        - The cadence at maximum speed was **34.00 strokes/minute**.
         - The average stroke length at maximum speed was **9.62 meters**.
 
         The overview presents the highest-level insights into the competition's best performance, helping identify efficient rowing techniques.
     """)
 
-    # Prepare the data for plotting average stroke rate vs. average stroke length
-    x_values = pd.concat([df["split_spm_500m_1"],
-                          df["split_spm_500m_2"],
-                          df["split_spm_500m_3"],
+    # Step 1: Prepare the data for plotting
+    # X-axis: Average cadence for each 500m section
+    x_values = pd.concat([df["split_spm_500m_1"], 
+                          df["split_spm_500m_2"], 
+                          df["split_spm_500m_3"], 
                           df["split_spm_500m_4"]]).reset_index(drop=True)
 
-    y_values = pd.concat([df["avg_stroke_length_500m_1"],
-                          df["avg_stroke_length_500m_2"],
-                          df["avg_stroke_length_500m_3"],
+    # Y-axis: Average stroke length for each 500m section
+    y_values = pd.concat([df["avg_stroke_length_500m_1"], 
+                          df["avg_stroke_length_500m_2"], 
+                          df["avg_stroke_length_500m_3"], 
                           df["avg_stroke_length_500m_4"]]).reset_index(drop=True)
+
+    # Speed values for determining the maximum speed point
+    speed_values = pd.concat([df["avg_speed_500m_1"], 
+                              df["avg_speed_500m_2"], 
+                              df["avg_speed_500m_3"], 
+                              df["avg_speed_500m_4"]]).reset_index(drop=True)
 
     # Create a DataFrame for plotting
     plot_df = pd.DataFrame({
-        'Average Stroke Rate (SPM)': x_values,
-        'Average Stroke Length (meters)': y_values
+        'Average Cadence (SPM)': x_values,
+        'Average Stroke Length (meters)': y_values,
+        'Speed (km/h)': speed_values
     })
 
-    # Create the interactive scatter plot using Plotly
+    # Step 2: Find the point of maximum speed
+    max_speed_index = speed_values.idxmax()
+    max_speed = speed_values.loc[max_speed_index]
+    max_cadence = x_values.loc[max_speed_index]
+    max_stroke_length = y_values.loc[max_speed_index]
+
+    # Step 3: Create an interactive scatter plot using Plotly
     fig = px.scatter(
         plot_df,
-        x='Average Stroke Rate (SPM)',
+        x='Average Cadence (SPM)',
         y='Average Stroke Length (meters)',
-        title='Average Stroke Rate vs. Average Stroke Length for 500m Sections',
+        color='Speed (km/h)',
+        title='Average Cadence vs. Average Stroke Length for 500m Sections',
         labels={
-            'Average Stroke Rate (SPM)': 'Average Stroke Rate (strokes/minute)',
-            'Average Stroke Length (meters)': 'Average Stroke Length (meters)'
+            'Average Cadence (SPM)': 'Average Cadence (strokes/minute)',
+            'Average Stroke Length (meters)': 'Average Stroke Length (meters)',
+            'Speed (km/h)': 'Speed (km/h)'
         },
         template='plotly_white',
         color_continuous_scale='Viridis'
     )
 
-    # Improve the layout to make it user-friendly
+    # Highlight the point of maximum speed with a star
+    fig.add_trace(
+        go.Scatter(
+            x=[max_cadence],
+            y=[max_stroke_length],
+            mode='markers',
+            marker=dict(color='red', size=15, symbol='star'),
+            name='Max Speed Point'
+        )
+    )
+
+    # Improve the layout for better user experience
     fig.update_layout(
-        xaxis_title='Average Stroke Rate (strokes/minute)',
+        xaxis_title='Average Cadence (strokes/minute)',
         yaxis_title='Average Stroke Length (meters)',
         xaxis=dict(showgrid=True, zeroline=True, gridcolor='LightGrey'),
         yaxis=dict(showgrid=True, zeroline=True, gridcolor='LightGrey'),
@@ -130,33 +158,22 @@ def show_overview_page():
             size=10,
             opacity=0.7,
             line=dict(width=1, color='DarkSlateGrey')
-        )
-    )
-
-    # Highlight the point of maximum speed
-    max_speed_index = x_values.idxmax()
-    max_stroke_rate = x_values.loc[max_speed_index]
-    max_stroke_length = y_values.loc[max_speed_index]
-    fig.add_trace(
-        go.Scatter(
-            x=[max_stroke_rate],
-            y=[max_stroke_length],
-            mode='markers+text',
-            marker=dict(color='red', size=15, symbol='star'),
-            text=['Max Speed Point'],
-            textposition='top center',
-            name='Max Speed Point'
-        )
+        ),
+        selector=dict(mode='markers')
     )
 
     # Add hover text for better interactivity
     fig.update_traces(
-        hovertemplate='Stroke Rate: %{x:.2f} strokes/minute<br>Stroke Length: %{y:.2f} meters'
+        hovertemplate='Cadence: %{x:.2f} strokes/minute<br>Stroke Length: %{y:.2f} meters<br>Speed: %{marker.color:.2f} km/h',
+        selector=dict(mode='markers')
     )
 
-    # Display the plot
+    # Step 4: Display the plot
     st.plotly_chart(fig, use_container_width=True)
 
+    # Display information about the maximum speed point
+    st.write(f"The maximum speed of **{max_speed:.2f} km/h** is achieved at a cadence of **{max_cadence:.2f} strokes/minute**.")
+    st.write(f"At this point, the average stroke length is **{max_stroke_length:.2f} meters**.")
 
 # Function to plot 2000m completion time
 def plot_2000m_completion_time():
