@@ -73,7 +73,6 @@ def show_about_page():
         **Use the tabs on the left to navigate through the different analyses.** 📊
     """)
 
-# Function to display the Overview page
 def show_overview_page():
     st.header("General Insights")
     st.markdown("""
@@ -84,21 +83,78 @@ def show_overview_page():
         The overview presents the highest-level insights into the competition's best performance, helping identify efficient rowing techniques.
     """)
 
-    # Plot the Average Stroke Rate vs. Average Stroke Length with color-coded speeds
-    fig = px.scatter(df, x='avg_spm_500m', y='avg_stroke_length_500m',
-                     color='avg_speed_500m',
-                     labels={'x': 'Average Stroke Rate (SPM)', 'y': 'Average Stroke Length (meters)', 'color': 'Average Speed (km/h)'},
-                     title='Average Stroke Rate vs. Average Stroke Length for 500m Sections',
-                     template='plotly_white')
-    fig.update_traces(marker=dict(size=10, opacity=0.7, line=dict(width=1, color='DarkSlateGrey')))
-    max_speed_index = df['avg_speed_500m'].idxmax()
-    max_speed = df['avg_speed_500m'].iloc[max_speed_index]
-    max_stroke_rate = df['avg_spm_500m'].iloc[max_speed_index]
-    max_stroke_length = df['avg_stroke_length_500m'].iloc[max_speed_index]
-    fig.add_trace(go.Scatter(x=[max_stroke_rate], y=[max_stroke_length], mode='markers+text',
-                             marker=dict(color='red', size=15),
-                             text=['Max Speed Point'],
-                             textposition='top center'))
+    # Prepare the data for plotting average stroke rate vs. average stroke length
+    x_values = pd.concat([df["split_spm_500m_1"],
+                          df["split_spm_500m_2"],
+                          df["split_spm_500m_3"],
+                          df["split_spm_500m_4"]]).reset_index(drop=True)
+
+    y_values = pd.concat([df["avg_stroke_length_500m_1"],
+                          df["avg_stroke_length_500m_2"],
+                          df["avg_stroke_length_500m_3"],
+                          df["avg_stroke_length_500m_4"]]).reset_index(drop=True)
+
+    # Create a DataFrame for plotting
+    plot_df = pd.DataFrame({
+        'Average Stroke Rate (SPM)': x_values,
+        'Average Stroke Length (meters)': y_values
+    })
+
+    # Create the interactive scatter plot using Plotly
+    fig = px.scatter(
+        plot_df,
+        x='Average Stroke Rate (SPM)',
+        y='Average Stroke Length (meters)',
+        title='Average Stroke Rate vs. Average Stroke Length for 500m Sections',
+        labels={
+            'Average Stroke Rate (SPM)': 'Average Stroke Rate (strokes/minute)',
+            'Average Stroke Length (meters)': 'Average Stroke Length (meters)'
+        },
+        template='plotly_white',
+        color_continuous_scale='Viridis'
+    )
+
+    # Improve the layout to make it user-friendly
+    fig.update_layout(
+        xaxis_title='Average Stroke Rate (strokes/minute)',
+        yaxis_title='Average Stroke Length (meters)',
+        xaxis=dict(showgrid=True, zeroline=True, gridcolor='LightGrey'),
+        yaxis=dict(showgrid=True, zeroline=True, gridcolor='LightGrey'),
+        hovermode='closest',
+        height=600
+    )
+
+    # Customize marker size and opacity
+    fig.update_traces(
+        marker=dict(
+            size=10,
+            opacity=0.7,
+            line=dict(width=1, color='DarkSlateGrey')
+        )
+    )
+
+    # Highlight the point of maximum speed
+    max_speed_index = x_values.idxmax()
+    max_stroke_rate = x_values.loc[max_speed_index]
+    max_stroke_length = y_values.loc[max_speed_index]
+    fig.add_trace(
+        go.Scatter(
+            x=[max_stroke_rate],
+            y=[max_stroke_length],
+            mode='markers+text',
+            marker=dict(color='red', size=15, symbol='star'),
+            text=['Max Speed Point'],
+            textposition='top center',
+            name='Max Speed Point'
+        )
+    )
+
+    # Add hover text for better interactivity
+    fig.update_traces(
+        hovertemplate='Stroke Rate: %{x:.2f} strokes/minute<br>Stroke Length: %{y:.2f} meters'
+    )
+
+    # Display the plot
     st.plotly_chart(fig, use_container_width=True)
 
 
