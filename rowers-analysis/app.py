@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # Load your processed data
-df = pd.read_csv('/Users/ecembayindir/Desktop/pythonProject/Sorbonne_Python_Project_2024/rowers-analysis/merged_series_data.csv')
+df = pd.read_csv('merged_series_data.csv')
 
 # Sidebar for tab selection
 st.sidebar.title("🏁 Navigation")
