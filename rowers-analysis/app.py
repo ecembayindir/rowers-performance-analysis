@@ -2,9 +2,12 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import warnings
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Load your processed data
-df = pd.read_csv('rowers-analysis/merged_series_data.csv')
+df = pd.read_csv('/Users/ecembayindir/Desktop/pythonProject/Sorbonne_Python_Project_2024/rowers-analysis/merged_series_data.csv')
 
 # Sidebar for tab selection
 st.sidebar.title("🏁 Navigation")
@@ -16,12 +19,13 @@ tab_labels = [
     "Average 500m Split Speed",
     "2000m Stroke Length",
     "500m Stroke Length",
-    "Heatmap"
+    "Heatmap",
+    "Correlation Analysis"
 ]
 tab_selection = st.sidebar.radio("", tab_labels)
 
 # Sidebar for filtering
-if tab_selection not in ["About", "Overview"]:  # Only show filters if not on the About or Overview page
+if tab_selection not in ["About", "Correlation Analysis"]:  # Only show filters if not on the About or Overview page
     st.sidebar.markdown("### 👤 Select Participant")
     participants = ["All"] + list(df['participant'].unique())  # Add "All" to the participants list
     selected_participant = st.sidebar.selectbox("Participant", participants)
@@ -273,6 +277,52 @@ def plot_stroke_rate_vs_speed_heatmap():
     fig.update_layout(xaxis_title='Stroke Rate (SPM)', yaxis_title='Speed (km/h)')
     st.plotly_chart(fig, use_container_width=True)
 
+# Add a function to show the correlation analysis page
+def show_correlation_analysis():
+    st.markdown("""
+        This section provides insights into how different performance metrics relate to each other, helping to identify factors that impact rowing performance.
+    """)
+
+    # Specify the list of numeric columns for correlation analysis
+    numeric_columns = [
+        'total_time_2000m_seconds',  # Total time taken in seconds for the 2000m race
+        'avg_speed_2000',            # Average speed over the entire 2000m
+        'avg_speed_500m_1',          # Average speed for each 500m section
+        'avg_speed_500m_2',
+        'avg_speed_500m_3',
+        'avg_speed_500m_4',
+        'calories'                   # Calories burned during the race
+    ]
+
+    # Convert these columns to numeric
+    df[numeric_columns] = df[numeric_columns].apply(lambda x: pd.to_numeric(x, errors='coerce'))
+
+    # Create a DataFrame with only the selected columns for correlation analysis
+    numeric_df = df[numeric_columns]
+
+    # Calculate the correlation matrix
+    correlation_matrix = numeric_df.corr()
+
+    # Create an interactive correlation heatmap using Plotly
+    fig = go.Figure(data=go.Heatmap(
+        z=correlation_matrix.values,
+        x=correlation_matrix.columns,
+        y=correlation_matrix.index,
+        colorscale='RdBu',  # Use a valid named colorscale for Plotly
+        colorbar=dict(title="Correlation"),
+        hoverongaps=False
+    ))
+
+    fig.update_layout(
+        title="Interactive Correlation Heatmap for Performance Metrics",
+        xaxis=dict(title="Metrics"),
+        yaxis=dict(title="Metrics"),
+        autosize=True
+    )
+
+    # Display the interactive Plotly heatmap in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
+
 # Display the appropriate plot based on the selected tab
 if tab_selection == "About":
     show_about_page()
@@ -297,3 +347,6 @@ elif tab_selection == "500m Stroke Length":
 
 elif tab_selection == "Heatmap":
     plot_stroke_rate_vs_speed_heatmap()
+
+elif tab_selection == "Correlation Analysis":
+    show_correlation_analysis()
