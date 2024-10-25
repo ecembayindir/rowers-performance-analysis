@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load your processed data
-df = pd.read_csv('/Users/ecembayindir/Desktop/pythonProject/Sorbonne_Python_Project_2024/rowers-analysis/merged_series_data.csv')
+df = pd.read_csv('rowers-analysis/merged_series_data.csv')
 
 # Sidebar for tab selection
 st.sidebar.title("🏁 Navigation")
