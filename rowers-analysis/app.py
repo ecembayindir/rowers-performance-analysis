@@ -11,6 +11,9 @@ from sklearn.metrics import mean_squared_error
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
 
+st.set_page_config(page_title="Ecemin Appsi", page_icon="🤖")
+
+
 # Load your processed data
 df = pd.read_csv('rowers-analysis/merged_series_data.csv')
 anova_results_df = pd.read_csv('rowers-analysis/anova_results.csv')
