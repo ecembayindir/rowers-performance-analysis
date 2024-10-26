@@ -350,9 +350,6 @@ def show_gender_competitor_analysis():
         - There is no interaction effect between gender and type of participant.
         """)
 
-# Add this page to the navigation
-if tab_selection == "Gender & Competitor Analysis":
-    show_gender_competitor_analysis()
 
 # Machine Learning Prediction
 def show_machine_learning_prediction():
