@@ -1,0 +1,9 @@
+Dep. Variable:,average_speed_2000m,  R-squared:         ,   0.343
+Model:,OLS,  Adj. R-squared:    ,   0.312
+Method:,Least Squares,  F-statistic:       ,   11.14
+Date:,"Sat, 26 Oct 2024",  Prob (F-statistic):,5.66e-06
+Time:,15:10:01,  Log-Likelihood:    , -121.62
+No. Observations:,    68,  AIC:               ,   251.2
+Df Residuals:,    64,  BIC:               ,   260.1
+Df Model:,     3,                     , 
+Covariance Type:,nonrobust,                     , 
