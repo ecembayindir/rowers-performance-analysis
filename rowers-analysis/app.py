@@ -417,7 +417,7 @@ elif tab_selection == "Heatmap":
     plot_stroke_rate_vs_speed_heatmap()
 elif tab_selection == "Correlation Analysis":
     show_correlation_analysis()
-elif tab_selection == "Gender Performance Analysis":
+elif tab_selection == "Gender & Competitor Analysis":
     show_gender_competitor_analysis()
 elif tab_selection == "Machine Learning Prediction":
     show_machine_learning_prediction()
