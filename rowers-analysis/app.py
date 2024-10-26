@@ -1,4 +1,4 @@
-import streamlit as st
+edimport streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -12,7 +12,7 @@ import statsmodels.api as sm
 from statsmodels.formula.api import ols
 
 # Load your processed data
-df = pd.read_csv('rowers-analysis/anova_results.csv')
+df = pd.read_csv('rowers-analysis/merged_series_data.csv')
 anova_results_df = pd.read_csv('rowers-analysis/anova_results.csv')
 coef_df = pd.read_csv('rowers-analysis/ols_coefficients.csv')
 model_summary_df = pd.read_csv('rowers-analysis/ols_summary.csv')
