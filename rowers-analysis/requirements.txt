@@ -8,5 +8,4 @@ statsmodels==0.13.5
 setuptools==67.0.0
 distlib==0.3.7
 wheel==0.41.2
-pillow
---prefer-binary pillow
+pillow==8.3.1
