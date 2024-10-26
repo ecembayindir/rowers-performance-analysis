@@ -280,7 +280,7 @@ def plot_stroke_rate_vs_speed_heatmap():
 def show_correlation_analysis():
     st.header("Correlation Analysis")
     st.markdown("This section provides insights into the performance correlation with calories spent.")
-    numeric_columns = ['calories', 'total_time_2000m_seconds', 'avg_speed_2000', 'avg_speed_500m_1', 'avg_speed_500m_2', 'avg_speed_500m_3', 'avg_speed_500m_4']
+    numeric_columns = ['total_time_2000m_seconds', 'avg_speed_2000', 'avg_speed_500m_1', 'avg_speed_500m_2', 'avg_speed_500m_3', 'avg_speed_500m_4', 'calories']
     df[numeric_columns] = df[numeric_columns].apply(pd.to_numeric, errors='coerce')
     correlation_matrix = df[numeric_columns].corr()
 
