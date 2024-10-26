@@ -13,15 +13,15 @@ from statsmodels.formula.api import ols
 
 # Load your processed data
 df = pd.read_csv(
-    '/Users/ecembayindir/Desktop/pythonProject/Sorbonne_Python_Project_2024/rowers-analysis/merged_series_data.csv')
+    '/rowers-analysis/merged_series_data.csv')
 anova_results_df = pd.read_csv(
-    '/Users/ecembayindir/Desktop/pythonProject/Sorbonne_Python_Project_2024/rowers-analysis/anova_results.csv')
+    '/rowers-analysis/anova_results.csv')
 coef_df = pd.read_csv(
-    '/Users/ecembayindir/Desktop/pythonProject/Sorbonne_Python_Project_2024/rowers-analysis/ols_coefficients.csv')
+    '/rowers-analysis/ols_coefficients.csv')
 model_summary_df = pd.read_csv(
-    '/Users/ecembayindir/Desktop/pythonProject/Sorbonne_Python_Project_2024/rowers-analysis/ols_summary.csv')
+    '/rowers-analysis/ols_summary.csv')
 noc = pd.read_csv(
-    '/Users/ecembayindir/Desktop/pythonProject/Sorbonne_Python_Project_2024/rowers-analysis/data_externes_aviron.csv')
+    '/rowers-analysis/data_externes_aviron.csv')
 
 # Sidebar for tab selection
 st.sidebar.title("🏁 Navigation")
