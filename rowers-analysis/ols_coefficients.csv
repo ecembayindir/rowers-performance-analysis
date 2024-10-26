@@ -1,0 +1,5 @@
+,coef,std err,t,P>|t|,[0.025,0.975]
+Intercept,   15.8111,    0.352,   44.968, 0.000,   15.109,   16.514
+C(sex)[T.M],    0.5667,    0.497,    1.140, 0.259,   -0.427,    1.560
+C(type_participant)[T.Participant Amateur],   -2.3767,    0.543,   -4.377, 0.000,   -3.461,   -1.292
+C(sex)[T.M]:C(type_participant)[T.Participant Amateur],    0.8560,    0.732,    1.170, 0.246,   -0.606,    2.318
