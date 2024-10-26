@@ -11,7 +11,7 @@ from sklearn.metrics import mean_squared_error
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
 
-st.set_page_config(page_title="Ecemin Appsi", page_icon="🤖")
+st.set_page_config(page_title="Sorbonne Python Project", page_icon="🤖")
 
 
 # Load your processed data
