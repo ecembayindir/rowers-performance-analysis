@@ -3,5 +3,7 @@ pandas==1.5.3
 plotly==5.10.0
 seaborn==0.12.2
 matplotlib==3.6.3
-scikit-learn==1.2.1
+scikit-learn==1.0.2  # Use a compatible version
 statsmodels==0.13.5
+setuptools>=58.0.0
+wheel
