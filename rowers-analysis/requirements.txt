@@ -1,9 +1,8 @@
 streamlit==1.25.0
 pandas==1.5.3
 plotly==5.10.0
-seaborn==0.12.2
 matplotlib==3.6.3
-scikit-learn==1.0.2  # Known stable version with pre-built wheels
+seaborn==0.12.2
+scikit-learn==1.1.3
 statsmodels==0.13.5
-setuptools>=58.0.0  # Ensure setuptools can handle all wheel builds
-wheel==0.38.4  # Stable wheel version to avoid wheel build issues
+setuptools==65.5.1
